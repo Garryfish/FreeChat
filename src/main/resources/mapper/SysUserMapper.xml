@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysUserDao">
+
+	<select id="findUsernameById" resultType="String">
+		select username from sys_users where id = #{userId}
+	</select>
+
+	<insert id="insertObject"
+		parameterType="com.cy.pj.sys.entity.SysUser">
+		insert into sys_users
+		values(null,#{username},#{password},#{salt},#{email},#{mobile},#{valid},now(),now(),#{createdUser},#{modifiedUser})
+	</insert>
+	
+	
+	<select id="findUserName" resultType="String">
+		select username from sys_users where username=#{username}
+	</select>
+	
+	
+	
+	<select id="FindUserByName"
+		resultType="com.cy.pj.sys.entity.SysUser" parameterType="String">
+		select * from sys_users where username = #{username}
+	</select>
+
+</mapper>
+
+
+

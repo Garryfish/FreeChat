@@ -1,0 +1,167 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>FreeChatting Register Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content=" Master  Login Form Widget Tab Form,Login Forms,Sign up Forms,Registration Forms,News letter Forms,Elements"/>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="bower_components/css/style2.css" rel="stylesheet" type="text/css" media="all" />
+	<style>
+		.warn-info{
+			color: white;
+			text-align:left;
+			font-size: 13px;
+			margin:0 auto;
+			padding-left: 17px;
+
+		}
+	</style>
+    <script src="bower_components/js/jquery-3.1.1.min.js"></script>
+    <script>
+        function doCheckUsername() {
+        	debugger;
+            var username=$("#usernameId").val();
+            var reg_username=/^[a-zA-Z]{3,8}$/;
+            var flag=reg_username.test(username);
+            if(flag){
+                //用户名合法
+				/*$("#uwarn").html("<br/>");
+				$("#usernameId").css("border","1px solid green");*/
+				//判断用户名是否已存在
+				var url = "register/doFindUserName";
+				var params = {"username":username};
+				$.getJSON(url,params,function (result) {
+					if(result.data){
+						$("#uwarn").html("用户名可用");
+						$("#usernameId").css("border","1px solid green");
+					}else{
+						$("#uwarn").html("用户名已被占用");
+						$("#usernameId").css("border","1px solid red");
+					}
+            	})
+            }else{
+                $("#uwarn").html("用户名必须是3-8位英文字符");
+				$("#usernameId").css("border","1px solid red");
+			}
+
+            return flag;
+        }
+        function doCheckPassword(){
+            var password = $("#password").val();
+            var reg_password = /^(?=.*?[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
+            var flag = reg_password.test(password);
+            if(flag){
+                $("#pwarn").html("<br/>");
+                $("#password").css("border","1px solid green");
+            }else{
+                $("#pwarn").html("密码必须是6-15数字或英文字符，至少包含一个英文字符");
+                $("#password").css("border","1px solid red");
+            }
+            return flag;
+        }
+        function doCheckPhone(){
+            var mobile = $("#mobile").val();
+            var reg_phone = /^1[3578]\d{9}$/;
+            var flag = reg_phone.test(mobile);
+            if(flag){
+                $("#phonewarn").html("<br/>");
+                $("#mobile").css("border","1px solid green");
+            }else{
+				$("#phonewarn").html("手机号码格式错误");
+				$("#mobile").css("border","1px solid red");
+			}
+            return flag;
+        }
+        function doCheckEmail(){
+            var email = $("#email").val();
+            var reg_email = /^\w+([+-.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            var flag = reg_email.test(email);
+            if(flag){
+                $("#emailwarn").html("");
+                $("#email").css("border","1px solid green");
+            }else{
+                $("#emailwarn").html("邮箱格式错误");
+                $("#email").css("border","1px solid red");
+            }
+            return flag;
+        }
+		$(function(){
+			$("#regist").click(function () {
+				if(doCheckUsername()&&doCheckPassword()&&doCheckPhone()&&doCheckEmail()){
+					var username=$("#usernameId").val();
+					var password = $("#password").val();
+					var mobile = $("#mobile").val();
+					var email = $("#email").val();
+					var params = {};
+					params.username=username;
+					params.password = password;
+					params.mobile = mobile;
+					params.email = email;
+					$.getJSON("register/doRegister",params, function (result) {
+						if(result.data){
+							alert("注册成功，请登录邮箱进行激活账号");
+							location.href="login.html";
+						}else{
+							alert("注册失败");
+						}
+					})
+				}
+			});
+			//焦点事件
+			$(".mail-form-agile").on("blur","#usernameId",doCheckUsername);
+			$("#password").blur(doCheckPassword);
+			$("#mobile").blur(doCheckPhone);
+			$("#email").blur(doCheckEmail);
+
+		});
+    </script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<!-- <link href="//fonts.googleapis.com/css?family=Cormorant+SC:300,400,500,600,700" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"> -->
+</head>
+
+<body>
+	<div class="padding-all">
+		<div class="header">
+			<h1>Register</h1>
+		</div>
+
+		<div class="design-w3l">
+			<div class="mail-form-agile">
+				<form action="#" method="post">
+					<input type="text" name="username" id="usernameId" placeholder="Username" required=""/>
+					<div id="uwarn" class="warn-info">用户名必须是3-8位英文字符</div>
+					<input type="password" id="password" name="password"  placeholder="Password" required=""/>
+					<div id="pwarn" class="warn-info">密码必须是6-15数字或英文字符，至少包含一个英文字符</div>
+					<input type="text" id="mobile" name="mobile" placeholder="phone number" required=""/>
+                    <div id="phonewarn" class="warn-info"></div>
+					<input type="text" id="email" name="email" placeholder="email" required=""/>
+                    <div id="emailwarn" class="warn-info"></div><br/><br/>
+
+					<input type="button" id="regist" class="btn btn-default" value="register">
+					<!--<input id="regist" type="submit" value="register">-->
+					<!--<button id="regist" type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">register</button>-->
+					<!--<button id="regist" class="btn btn-default" type="submit">register</button>-->
+				</form>
+			</div>
+		  <div class="clear"> </div>
+		</div>
+		
+		<div class="footer">
+		<p> Welcome to Chatting! </p>
+		</div>
+	</div>
+	
+
+</body>
+</html>

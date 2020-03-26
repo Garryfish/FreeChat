@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysPostDao">
+
+    <select id="findObjects" resultMap="selectUsernameAndCommentCount">
+    	select * from sys_posts order by createdtime desc limit #{currentPage},4
+    </select>
+    
+    <resultMap type="com.cy.pj.sys.vo.SysPostUserCommentVo" id="selectUsernameAndCommentCount">
+    	<id column="id" property="sysPost.id"/>
+    	<result column="postname" property="sysPost.postname"/>
+    	<result column="content" property="sysPost.content"/>
+    	<result column="createdtime" property="sysPost.createdtime"/>
+    	<result column="modifiedtime" property="sysPost.modifiedtime"/>
+    	<result column="post_clicks" property="sysPost.postClicks"/>
+    	<result column="user_id" property="sysPost.userId"/>
+    	<result column="tag_id" property="sysPost.tagId"/>
+    	<association property="username" column="user_id" 
+    	select="com.cy.pj.sys.dao.SysUserDao.findUsernameById"></association>
+    	
+    	<collection property="commentCount" column="id" 
+    	select="com.cy.pj.sys.dao.SysCommentDao.findRowCountById"></collection>
+    	
+    	
+    	
+    	
+    </resultMap>
+    
+</mapper>
+
+
+

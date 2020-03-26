@@ -1,0 +1,87 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>FreeChat Login Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content=" Master  Login Form Widget Tab Form,Login Forms,Sign up Forms,Registration Forms,News letter Forms,Elements"/>
+<script language="JavaScript" src="bower_components/js/jquery-3.1.1.min.js"></script>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="bower_components/css/style3.css" rel="stylesheet" type="text/css" media="all" />
+<!-- <link href="//fonts.googleapis.com/css?family=Cormorant+SC:300,400,500,600,700" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"> -->
+</head>
+
+<body onkeypress="if (event.keyCode == 13) doLogin();">
+	<div class="padding-all">
+		<div class="header">
+			<h1>WELCOME TO FREECHAT</h1>
+		</div>
+
+		<div class="design-w3l">
+			<div class="mail-form-agile">
+				<form action="#" method="post">
+					<input id="usernameId" type="text" name="username" placeholder="Username" required=""/>
+					<input id="passwordId" type="password"  name="password" placeholder="Password" required=""/>
+					
+					<input id="validCode" type="text" name="tryCode" placeholder="valid code" />
+					<div id="remember"><input id="rememberId" type="checkbox"  name="rememberMe"/>Remember Me</div>
+					<!-- 后面添加参数起到清除缓存作用 -->
+					<div id="imgValid">
+						<span id="info"></span>
+						<img id="validC" alt="valid code" onclick="this.src='/defaultKaptcha?d='+new Date()*1"
+						src="/defaultKaptcha" class="padding"/> 
+					</div>
+					
+					<div>
+						<input id="login" type="button" value="Login">
+					</div>
+				</form>
+			</div>
+		  <div class="clear"> </div>
+		</div>
+		
+		<div class="footer">
+		<p>NO ACCOUNT YET?<a href="/register">CLICK HERE TO REGIST</a></p>
+		</div>
+	</div>
+<script type="text/javascript">
+$(function () {
+	
+    /* $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    }); */
+    $("#login").on("click",doLogin);
+    /* $(".btn-success").on("click",doKaptcha); */
+  });
+  function doLogin(){
+   var params={
+ 	  username:$("#usernameId").val(),
+  	  password:$("#passwordId").val(),
+  	  validCode:$("#validCode").val(),
+	  isRememberMe:$("#rememberId").prop("checked")
+   };
+   var url="user/doLogin";
+   console.log("params",params);
+   $.post(url,params,function(result){
+    if(result.state==1){
+    	location.href="index?t="+Math.random();
+    }else{
+  		$("#info").html(result.message);
+    }
+    return false;//防止刷新时重复提交
+   });
+  }
+ 
+</script>
+</body>
+</html>

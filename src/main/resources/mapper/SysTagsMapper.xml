@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.cy.pj.sys.dao.SysTagsDao">
+    
+    	<resultMap type="com.cy.pj.sys.entity.SysTags" id="SysTagsMap">
+    		<id column="id" property="id"/>
+    		<result column="tagname" property="tagname"/>
+    		<result column="tag_clicks" property="tagClicks"/>
+    	</resultMap>
+    
+    	<select id="findObjects" resultMap="SysTagsMap">
+    		select id,tagname,tag_clicks from sys_tags 
+    		order by tag_clicks desc
+    	</select>
+    	
+    	
+    </mapper>
